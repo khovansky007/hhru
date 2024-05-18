@@ -5,13 +5,10 @@ from bs4 import BeautifulSoup as bs
 
 
 class HhAnalyst:
-    
-
     def __init__(self, url = input()):
         self.url = url
         self.all_prices = []
     
-
     def __get_count_pages(self):
         responce = requests.get(self.url, headers = {'User-Agent': UserAgent().random})
         soup = bs(responce.text, 'lxml')
@@ -22,7 +19,6 @@ class HhAnalyst:
         else: count_pages = 0
         self.count_pages = count_pages
 
-    
     def __get_prices(self, url):
         ua = UserAgent().random
         responce = requests.get(url, headers = {'User-Agent': ua})
@@ -52,7 +48,6 @@ class HhAnalyst:
             elif '€' in copy_price: price *= 95
             self.all_prices.append(price)
 
-
     def main(self):
         self.__get_count_pages()
         if '?' in self.url: char = '&'
@@ -67,14 +62,7 @@ class HhAnalyst:
             print(f"page scanned")
 
         self.all_prices.sort()
-        ########### ЭТУ часть поменял
-        #if len(self.all_prices) != 0:
-        #    avg_price = sum(self.all_prices)/len(self.all_prices)
-        #else:
-        #    avg_price = sum(self.all_prices)
-        ###########
-
-        ########### На эту часть поменял
+        
         if len(self.all_prices) != 0:
             if len(self.all_prices)%2 == 0:
                 median_indexes = (len(self.all_prices)//2, len(self.all_prices)//2 + 1) # тут человеческий счет индексов. 1, 2, 3...
@@ -85,7 +73,6 @@ class HhAnalyst:
             
         else:
             avg_price = sum(self.all_prices)
-        ###########
             
         print(sorted(self.all_prices))
         return f"{int(avg_price)} ₽"
